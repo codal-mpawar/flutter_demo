@@ -1,11 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:demo/components/my_alert.dart';
+import 'package:demo/components/my_custom_sheet.dart';
 import 'package:demo/components/my_tile.dart';
 import 'package:demo/screens/Auth/users/my_create_edit_screen.dart';
 import 'package:demo/screens/Auth/users/my_user_detail_screen.dart';
 import 'package:demo/screens/UnAuth/my_login.dart';
 import 'package:demo/services/users_api.dart';
 import 'package:demo/utils/Constants/const.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,7 +40,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
   void dispose() {
     super.dispose();
     setState(() {
-      var page = 1;
+      page = 1;
+      users = [];
     });
   }
 
@@ -144,11 +147,12 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
   }
 
   void onPressDetailIcon(BuildContext context, user) {
-    _showActionSheet(context);
     setState(() {
       selectedUser = user;
       isCreate = false;
     });
+    showActionSheet(context, onPressAction, onPressDelete, 'Cancel',
+        'Update User', 'Delete User');
   }
 
   Future<void> onRefresh() async {
@@ -193,12 +197,13 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         firstName: firstName,
         lastName: lastName,
         userId: userId.toString(),
+        refresh: refresh,
       ),
     );
     Navigator.push(
       context,
       route,
-    ).then((value) => fetchRandomUsers(page));
+    );
   }
 
   void loadMore() {
@@ -209,7 +214,6 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
   }
 
   Future<void> onPressDelete() async {
-    // ignore: argument_type_not_assignable_to_error_handler, body_might_complete_normally_catch_error
     final response =
         await UserApi().deleteUserAPI(selectedUser['id']?.toString());
     if (response.statusCode == 200) {
@@ -225,63 +229,19 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     }
   }
 
-  void _showActionSheet(BuildContext context) {
-    showCupertinoModalPopup<void>(
-      context: context,
-      builder: (BuildContext context) => CupertinoActionSheet(
-        title: const Text(
-          'CRUD Operations',
-          style: TextStyle(
-            color: Colors.blueAccent,
-            fontWeight: FontWeight.w700,
-            fontSize: 17,
-          ),
-        ),
-        cancelButton: CupertinoActionSheetAction(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Cancel', style: TextStyle(color: Colors.black)),
-        ),
-        actions: <CupertinoActionSheetAction>[
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-              onPressAction(context);
-            },
-            child: const Text(
-              'Update User',
-              style: TextStyle(
-                color: Colors.blueAccent,
-                fontWeight: FontWeight.w700,
-                fontSize: 17,
-              ),
-            ),
-          ),
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-              onPressDelete();
-            },
-            child: const Text(
-              'Delete User',
-              style: TextStyle(
-                color: Colors.blueAccent,
-                fontWeight: FontWeight.w700,
-                fontSize: 17,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   void getAPIError() {
     setState(() {
       isLoading = false;
       isLoadingMore = false;
     });
+  }
+
+  Future<void> refresh() async {
+    setState(() {
+      page = 1;
+      users = [];
+    });
+    fetchRandomUsers(page);
   }
 
   Future<void> fetchRandomUsers(page) async {

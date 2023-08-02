@@ -1,4 +1,4 @@
-import 'dart:convert';
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:demo/components/my_alert.dart';
 import 'package:demo/services/users_api.dart';
@@ -11,12 +11,14 @@ class MyCreateEditScreen extends StatefulWidget {
     required this.firstName,
     required this.lastName,
     required this.userId,
+    required this.refresh,
   });
 
   final bool isCreate;
   final String firstName;
   final String lastName;
   final String userId;
+  final Function refresh;
   @override
   State<MyCreateEditScreen> createState() => MyCreateEditScreenState();
 }
@@ -35,6 +37,7 @@ class MyCreateEditScreenState extends State<MyCreateEditScreen> {
   @override
   void dispose() {
     super.dispose();
+    // widget.refresh();
   }
 
   @override
@@ -42,6 +45,13 @@ class MyCreateEditScreenState extends State<MyCreateEditScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(!widget.isCreate ? 'Update User' : 'Create User'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            widget.refresh();
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -123,7 +133,6 @@ class MyCreateEditScreenState extends State<MyCreateEditScreen> {
       'job': myJobTextController.text.toString(),
     };
     if (widget.isCreate) {
-      // create User api called
       final response = await UserApi().createUserAPI(body);
       if (response.statusCode == 201) {
         Navigator.of(context).pop();
@@ -133,16 +142,13 @@ class MyCreateEditScreenState extends State<MyCreateEditScreen> {
         showMyDialogBox(context, 'Alert', 'Something went wrong!');
       }
     } else {
-      // update User api called
       final response =
           await UserApi().updateUserAPI(widget.userId.toString(), body);
       if (response.statusCode == 200) {
-        // ignore: use_build_context_synchronously
         Navigator.of(context).pop();
         showMyDialogBox(
             context, 'Alert', 'Your account is updated successfully!');
       } else {
-        // ignore: use_build_context_synchronously
         showMyDialogBox(context, 'Alert', 'Something went wrong!');
       }
     }
