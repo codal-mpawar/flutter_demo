@@ -4,7 +4,6 @@ import 'package:demo/components/my_alert.dart';
 import 'package:demo/screens/Auth/users/my_home_screen.dart';
 import 'package:demo/services/users_api.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:demo/utils/Constants/const.dart';
 
@@ -34,9 +33,8 @@ class _MyLoginScreenState extends State<MyLoginScreen> {
   @override
   void dispose() {
     super.dispose();
-    setState(() {
-      loader = false;
-    });
+    email.dispose();
+    password.dispose();
   }
 
   @override

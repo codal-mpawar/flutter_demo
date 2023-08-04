@@ -20,24 +20,24 @@ class MySplashScreenState extends State<MySplashScreen> {
     getUserLoggedInOrNot();
   }
 
+  void navigateToHomeScreen(BuildContext context, routename) {
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => routename,
+        ),
+      );
+    });
+  }
+
   Future<void> getUserLoggedInOrNot() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(TOKEN);
-    print('token :::::: ${token}');
     if (token == null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyLoginScreen(),
-        ),
-      );
+      navigateToHomeScreen(context, const MyLoginScreen());
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyHomeScreen(),
-        ),
-      );
+      navigateToHomeScreen(context, const MyHomeScreen());
     }
   }
 

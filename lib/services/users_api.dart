@@ -14,7 +14,7 @@ class UserApi {
   }
 
   Future<List> fetchUserAPI(page) async {
-    final uri = Uri.parse('${baseUrl + apiUrl['USERS']!}?page=$page');
+    final uri = Uri.parse('${baseUrl + apiUrl['USERS']!}?page=$page&limit=15');
     final response = await http.get(uri);
     final body = response.body;
     final jsonResponse = jsonDecode(body);
@@ -25,7 +25,7 @@ class UserApi {
   Future<dynamic> deleteUserAPI(userId) async {
     try {
       final uri = Uri.parse('${baseUrl + apiUrl['USERS']!}/$userId');
-      final response = await http.get(uri);
+      final response = await http.delete(uri);
       return response;
     } catch (error) {
       return Future.error(error);

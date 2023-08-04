@@ -1,32 +1,36 @@
+import 'package:demo/components/my_label.dart';
 import 'package:flutter/material.dart';
 
 class MyUserTile extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onPressIconButton;
-  final String userAvatar;
-  final String userFullName;
-  final String userEmail;
+  final user;
   final bool isVisible;
   const MyUserTile({
     super.key,
     required this.onTap,
     required this.onPressIconButton,
-    required this.userAvatar,
-    required this.userFullName,
-    required this.userEmail,
+    required this.user,
     required this.isVisible,
   });
 
   @override
   Widget build(BuildContext context) {
+    var userFullName = user['first_name'] + ' ' + user['last_name'];
     return ListTile(
       onTap: onTap,
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(userAvatar),
-        radius: 20,
+        backgroundImage: NetworkImage(user['avatar']),
+        radius: 40,
       ),
-      title: Text(userFullName),
-      subtitle: Text(userEmail),
+      title: MyTextLabel(
+        text: userFullName,
+        size: 20,
+      ),
+      subtitle: MyTextLabel(
+        text: user['email'],
+        size: 18,
+      ),
       trailing: isVisible
           ? IconButton(
               icon: const Icon(Icons.more_vert),

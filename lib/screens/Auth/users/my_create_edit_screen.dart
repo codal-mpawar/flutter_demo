@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:demo/components/my_alert.dart';
+import 'package:demo/components/my_custom_clickable_icon.dart';
+import 'package:demo/components/my_custom_input.dart';
 import 'package:demo/services/users_api.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +38,8 @@ class MyCreateEditScreenState extends State<MyCreateEditScreen> {
   @override
   void dispose() {
     super.dispose();
-    // widget.refresh();
+    myNameTextBoxController.dispose();
+    myJobTextController.dispose();
   }
 
   @override
@@ -45,9 +47,8 @@ class MyCreateEditScreenState extends State<MyCreateEditScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(!widget.isCreate ? 'Update User' : 'Create User'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
+        leading: CustomClickableIcon(
+          onPressedIcon: () {
             widget.refresh();
             Navigator.pop(context);
           },
@@ -65,20 +66,14 @@ class MyCreateEditScreenState extends State<MyCreateEditScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  TextField(
-                    controller: myNameTextBoxController,
+                  MyCustomInput(
+                    inputController: myNameTextBoxController,
+                    errormessage:
+                        isNameTextBoxEmpty ? "Please enter name" : null,
                     maxLength: 50,
-                    decoration: InputDecoration(
-                      hintText: "Enter your name",
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                        borderSide: BorderSide(color: Colors.amber, width: 4.0),
-                      ),
-                      errorText:
-                          isNameTextBoxEmpty ? "Please enter name" : null,
-                    ),
+                    hintText: "Enter your name",
                     keyboardType: TextInputType.name,
-                    onChanged: (text) {
+                    onTextChange: (text) {
                       setState(() {
                         isNameTextBoxEmpty = false;
                       });
@@ -87,19 +82,13 @@ class MyCreateEditScreenState extends State<MyCreateEditScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    controller: myJobTextController,
+                  MyCustomInput(
+                    inputController: myJobTextController,
+                    errormessage: isJobTextBoxEmpty ? "Please enter job" : null,
                     maxLength: 50,
-                    decoration: InputDecoration(
-                      hintText: "Enter your job",
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                        borderSide: BorderSide(color: Colors.amber, width: 4.0),
-                      ),
-                      errorText: isJobTextBoxEmpty ? "Please enter job" : null,
-                    ),
+                    hintText: "Enter your job",
                     keyboardType: TextInputType.text,
-                    onChanged: (text) {
+                    onTextChange: (text) {
                       setState(() {
                         isJobTextBoxEmpty = false;
                       });
@@ -132,6 +121,7 @@ class MyCreateEditScreenState extends State<MyCreateEditScreen> {
       'name': myNameTextBoxController.text.toString(),
       'job': myJobTextController.text.toString(),
     };
+    if (isNameTextBoxEmpty || isJobTextBoxEmpty) return;
     if (widget.isCreate) {
       final response = await UserApi().createUserAPI(body);
       if (response.statusCode == 201) {
