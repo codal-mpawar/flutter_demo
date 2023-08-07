@@ -57,7 +57,6 @@ class _MyCustomListViewState extends State<MyCustomListView> {
 
   @override
   Widget build(BuildContext context) {
-    print('${widget.isMoreData!}');
     return RefreshIndicator(
       onRefresh: onRefresh,
       child: ListView.builder(

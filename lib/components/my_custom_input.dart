@@ -9,6 +9,7 @@ class MyCustomInput extends StatefulWidget {
     this.maxLength,
     this.errormessage,
     this.onTextChange,
+    this.isInputIsPassword,
   });
   final TextEditingController? inputController;
   final String? hintText;
@@ -16,21 +17,14 @@ class MyCustomInput extends StatefulWidget {
   final int? maxLength;
   final String? errormessage;
   final Function? onTextChange;
+  final bool? isInputIsPassword;
 
   @override
   State<MyCustomInput> createState() => _MyCustomInputState();
 }
 
 class _MyCustomInputState extends State<MyCustomInput> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void disponse() {
-    super.dispose();
-  }
-
+  bool isPasswordView = false;
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -43,11 +37,23 @@ class _MyCustomInputState extends State<MyCustomInput> {
           borderSide: BorderSide(color: Colors.amber, width: 4.0),
         ),
         errorText: widget.errormessage,
+        suffixIcon: widget.isInputIsPassword!
+            ? IconButton(
+                icon: Icon(
+                    isPasswordView ? Icons.visibility : Icons.visibility_off),
+                onPressed: () {
+                  setState(() {
+                    isPasswordView = !isPasswordView;
+                  });
+                },
+              )
+            : null,
       ),
       keyboardType: widget.keyboardType,
       onChanged: (text) {
         widget.onTextChange!(text);
       },
+      obscureText: isPasswordView ? false : true,
     );
   }
 }

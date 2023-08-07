@@ -75,16 +75,11 @@ class MyPostsScreenStack extends State<MyPostsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Posts'),
-      ),
-      body: MyCustomListView(
-        items: postsList,
-        onEndReached: _onEndReached,
-        onRefresh: onRefresh,
-        isMoreData: isMoreData,
-      ),
+    return MyCustomListView(
+      items: postsList,
+      onEndReached: _onEndReached,
+      onRefresh: onRefresh,
+      isMoreData: isMoreData,
     );
   }
 }

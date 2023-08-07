@@ -1,3 +1,4 @@
+import 'package:demo/components/my_custom_tab.dart';
 import 'package:demo/screens/Auth/users/my_home_screen.dart';
 import 'package:demo/screens/UnAuth/my_login.dart';
 import 'package:demo/screens/UnAuth/my_splash_screen.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) =>
             const MySplashScreen(), // Initial loading screen if needed
-        '/home': (context) => const MyHomeScreen(),
+        '/tab': (context) => const MyCustomTab(),
         '/login': (context) => const MyLoginScreen(),
       },
       builder: EasyLoading.init(),

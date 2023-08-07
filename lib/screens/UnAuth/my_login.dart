@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:demo/components/my_alert.dart';
+import 'package:demo/components/my_custom_input.dart';
+import 'package:demo/components/my_custom_tab.dart';
 import 'package:demo/screens/Auth/users/my_home_screen.dart';
 import 'package:demo/services/users_api.dart';
 import 'package:flutter/material.dart';
@@ -40,89 +42,82 @@ class _MyLoginScreenState extends State<MyLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: Colors.amber.shade100,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: double.maxFinite,
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 20, bottom: 20),
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      TextField(
-                        controller: email,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          hintText: 'Enter Email',
-                          errorText:
-                              emailError ? 'Enter email is invalid!' : null,
-                          label: const Text('Email'),
-                          enabledBorder: const OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            emailError = false;
-                          });
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextField(
-                        controller: password,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          hintText: 'Enter Password',
-                          errorText: passwordError
-                              ? 'Enter password is invalid!'
-                              : null,
-                          label: const Text('Password'),
-                          enabledBorder: const OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            passwordError = false;
-                          });
-                        },
-                      ),
-                      ElevatedButton(
-                        onPressed: !loader ? onPressLogin : null,
-                        child: loader
-                            ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                  color: Colors.black,
-                                  strokeWidth: 0.6,
-                                ),
-                              )
-                            : const Text('Login'),
-                      )
-                    ],
-                  ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Login',
+              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            Container(
+              width: double.infinity,
+              // color: Colors.cyan,
+              margin: const EdgeInsets.only(left: 20, right: 20),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.black),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCustomInput(
+                      inputController: email,
+                      errormessage:
+                          emailError ? "Enter email is invalid!" : null,
+                      maxLength: 50,
+                      hintText: 'Enter Email',
+                      keyboardType: TextInputType.emailAddress,
+                      onTextChange: (text) {
+                        setState(() {
+                          emailError = false;
+                        });
+                      },
+                      isInputIsPassword: false,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyCustomInput(
+                      inputController: password,
+                      errormessage:
+                          passwordError ? "Enter password is invalid!" : null,
+                      hintText: 'Enter Password',
+                      keyboardType: TextInputType.emailAddress,
+                      onTextChange: (text) {
+                        setState(() {
+                          passwordError = false;
+                        });
+                      },
+                      isInputIsPassword: true,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton(
+                      onPressed: !loader ? onPressLogin : null,
+                      child: loader
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.black,
+                                strokeWidth: 0.6,
+                              ),
+                            )
+                          : const Text('Login'),
+                    )
+                  ],
                 ),
               ),
-            ),
-          ),
+            )
+          ],
         ),
       ),
     );
@@ -152,7 +147,7 @@ class _MyLoginScreenState extends State<MyLoginScreen> {
             loader = false;
           });
           Route route = MaterialPageRoute(
-            builder: (context) => const MyHomeScreen(),
+            builder: (context) => const MyCustomTab(),
           );
           Navigator.pushReplacement(
             context,

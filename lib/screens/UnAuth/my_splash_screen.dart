@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:demo/components/my_custom_tab.dart';
 import 'package:demo/screens/Auth/users/my_home_screen.dart';
 import 'package:demo/screens/UnAuth/my_login.dart';
 import 'package:demo/utils/Constants/const.dart';
@@ -37,7 +38,7 @@ class MySplashScreenState extends State<MySplashScreen> {
     if (token == null) {
       navigateToHomeScreen(context, const MyLoginScreen());
     } else {
-      navigateToHomeScreen(context, const MyHomeScreen());
+      navigateToHomeScreen(context, const MyCustomTab());
     }
   }
 

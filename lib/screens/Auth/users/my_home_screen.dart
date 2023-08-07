@@ -63,42 +63,14 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        centerTitle: true,
-        leading: const Icon(Icons.home),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              onPressCreateUser(context);
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.logout,
-              size: 25,
-            ),
-            onPressed: () {
-              onPressLogout(context);
-            },
-          ),
-        ],
-      ),
-      body: MyCustomListView(
-        items: users,
-        onTap: onTapTile,
-        onPressIconButton: onPressDetailIcon,
-        onEndReached: loadMore,
-        onRefresh: onRefresh,
-        isMoreData: isMoreData,
-        itemExtent: 110.0,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: navigateToPostsScreen,
-        child: const Icon(Icons.add),
-      ),
+    return MyCustomListView(
+      items: users,
+      onTap: onTapTile,
+      onPressIconButton: onPressDetailIcon,
+      onEndReached: loadMore,
+      onRefresh: onRefresh,
+      isMoreData: isMoreData,
+      itemExtent: 110.0,
     );
   }
 

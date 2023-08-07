@@ -8,7 +8,7 @@ class CustomClickableIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon((icon ?? Icons.arrow_back) as IconData?),
+      icon: icon!,
       onPressed: onPressedIcon!,
     );
   }

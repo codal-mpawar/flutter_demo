@@ -46,12 +46,8 @@ class _MyWidgetState extends State<MyNetworkImage> {
   @override
   Widget build(BuildContext context) {
     if (imageHeight > 0 && imageWidth > 0) {
-      return AspectRatio(
-        aspectRatio: imageHeight == imageWidth
-            ? 1
-            : imageHeight > imageWidth
-                ? 0.8
-                : 1.78,
+      return FittedBox(
+        fit: BoxFit.fill,
         child: Image.network(widget.imageUri),
       );
     }
