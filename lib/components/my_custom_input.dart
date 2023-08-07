@@ -53,7 +53,11 @@ class _MyCustomInputState extends State<MyCustomInput> {
       onChanged: (text) {
         widget.onTextChange!(text);
       },
-      obscureText: isPasswordView ? false : true,
+      obscureText: widget.isInputIsPassword!
+          ? isPasswordView
+              ? false
+              : true
+          : false,
     );
   }
 }

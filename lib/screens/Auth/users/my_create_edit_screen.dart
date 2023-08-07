@@ -52,6 +52,7 @@ class MyCreateEditScreenState extends State<MyCreateEditScreen> {
             widget.refresh();
             Navigator.pop(context);
           },
+          icon: const Icon(Icons.arrow_back),
         ),
       ),
       body: Column(
@@ -78,6 +79,7 @@ class MyCreateEditScreenState extends State<MyCreateEditScreen> {
                         isNameTextBoxEmpty = false;
                       });
                     },
+                    isInputIsPassword: false,
                   ),
                   const SizedBox(
                     height: 10,
@@ -93,6 +95,7 @@ class MyCreateEditScreenState extends State<MyCreateEditScreen> {
                         isJobTextBoxEmpty = false;
                       });
                     },
+                    isInputIsPassword: false,
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
